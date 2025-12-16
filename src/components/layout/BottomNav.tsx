@@ -1,8 +1,8 @@
-interface HeaderProps {
-  onSelect?: (key: 'home' | 'music' | 'group' | 'profile') => void
-}
-
 type NavKey = 'home' | 'music' | 'group' | 'profile'
+
+interface BottomNavProps {
+  onSelect?: (key: NavKey) => void
+}
 
 const navItems: { key: NavKey; label: string; icon: JSX.Element }[] = [
   { key: 'home', label: '홈', icon: HomeIcon() },
@@ -12,9 +12,9 @@ const navItems: { key: NavKey; label: string; icon: JSX.Element }[] = [
 ]
 
 // 하단 네비게이션 바: 4개의 버튼, 각 버튼은 하나의 SVG로만 구성
-function Header({ onSelect }: HeaderProps) {
+function BottomNav({ onSelect }: BottomNavProps) {
   return (
-    <header className="header">
+    <nav className="bottom-nav-container" aria-label="하단 메뉴">
       <nav className="bottom-nav" aria-label="하단 메뉴">
         <div className="bottom-nav__actions">
           {navItems.map((item) => (
@@ -30,7 +30,7 @@ function Header({ onSelect }: HeaderProps) {
           ))}
         </div>
       </nav>
-    </header>
+    </nav>
   )
 }
 
@@ -133,5 +133,5 @@ function UserIcon() {
   )
 }
 
-export default Header
+export default BottomNav
 import type { JSX } from 'react'
