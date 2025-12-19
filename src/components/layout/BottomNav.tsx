@@ -4,15 +4,19 @@ interface BottomNavProps {
   onSelect?: (key: NavKey) => void
 }
 
-const navItems: { key: NavKey; label: string; icon: JSX.Element }[] = [
-  { key: 'home', label: '홈', icon: HomeIcon() },
-  { key: 'music', label: '음악', icon: HeadphonesIcon() },
-  { key: 'group', label: '그룹', icon: UsersIcon() },
-  { key: 'profile', label: '프로필', icon: UserIcon() },
+const navItems: { key: NavKey; label: string; icon: JSX.Element; path: string }[] = [
+  { key: 'home', label: '홈', icon: HomeIcon(), path: '/' },
+  { key: 'music', label: '음악', icon: HeadphonesIcon(), path: '/sound' },
+  { key: 'group', label: '그룹', icon: UsersIcon(), path: '/group' },  // TODO: 나중에 경로 수정
+  { key: 'profile', label: '프로필', icon: UserIcon(), path: '/login' },
 ]
 
 // 하단 네비게이션 바: 4개의 버튼, 각 버튼은 하나의 SVG로만 구성
-function BottomNav({ onSelect }: BottomNavProps) {
+function BottomNav() {
+  const navigate = useNavigate()
+  const handleClick = (path: string) => {
+    navigate(path)
+  }
   return (
     <nav className="bottom-nav-container" aria-label="하단 메뉴">
       <nav className="bottom-nav" aria-label="하단 메뉴">
@@ -23,7 +27,7 @@ function BottomNav({ onSelect }: BottomNavProps) {
               type="button"
               className="bottom-nav__btn"
               aria-label={item.label}
-              onClick={() => onSelect?.(item.key)}
+              onClick={() => handleClick(item.path)}
             >
               {item.icon}
             </button>
@@ -134,4 +138,6 @@ function UserIcon() {
 }
 
 export default BottomNav
-import type { JSX } from 'react'
+import type { JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
+
