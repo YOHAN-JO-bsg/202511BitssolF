@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import StatusBar from '../components/layout/StatusBar'
 import BottomNav from '../components/layout/BottomNav'
 import BottomPanel from '../components/layout/BottomPanel'
@@ -28,6 +29,7 @@ const forecastItems: ForecastItemProps[] = [
 
 // 홈 화면 조립
 function Home() {
+
   return (
     <div className="home-screen">
       <StatusBar /> {/* 상단 상태 표시줄, 단순 표시용. 나중에는 자기 스마트폰 상태를 불러와야 함.  */}

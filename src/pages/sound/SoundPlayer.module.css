@@ -1,0 +1,122 @@
+.playerContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.thumbnailWrapper {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.thumbnail {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.trackInfo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.trackTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.trackArtist {
+    font-size: 16px;
+    color: #b3b3b3;
+}
+
+.progressContainer {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.progressBar {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: #4d4d4d;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.progressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #1db954;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.progressBar::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #1db954;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.timeLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.controlButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 32px;
+}
+
+.playPauseButton {
+    font-size: 48px;
+    color: #1db954;
+}
+
+.backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 10;
+}
+
+.backButton:hover {
+    background: rgba(0, 0, 0, 0.8);
+}

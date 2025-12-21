@@ -10,6 +10,11 @@
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
+import SoundMain from "../pages/sound/SoundMain";
+import SoundForm from "../pages/sound/SoundForm";
+import SoundPlayer from "../pages/sound/SoundPlayer";
+import Login from "../pages/user/Login";
+import Signup from "../pages/user/Signup";
 
 // 페이지 routing 정보를 배열에 미리 저장해둔다.
 const routes=[
@@ -17,6 +22,11 @@ const routes=[
     // 그럴때도  Home 컴포넌트가 활성화 될수 있도록 라우트 정보를 추가한다. 
     {path:"/index.html", element: <Home/>},
     {path:"/", element:<Home/>},
+    {path:"/sound", element:<SoundMain/>},
+    {path:"/sound/new", element:<SoundForm/>},
+    {path:"/soundplayer", element:<SoundPlayer/>},
+    {path:"/login", element:<Login/>},
+    {path:"/signup", element:<Signup/>},
 ];
 
 //export 해줄 router 객체를 만든다
