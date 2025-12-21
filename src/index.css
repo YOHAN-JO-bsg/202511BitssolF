@@ -27,7 +27,8 @@ body {
 .container {
   position: relative;
   width: min(375px, 100%);
-  height: 812px;
+  min-height: 100vh;
+  height: 100vh;
   background: #616161 url('./assets/background.svg') center top / cover no-repeat;
   overflow: hidden;
   box-sizing: border-box;

@@ -1,0 +1,193 @@
+/* weather-card는 svg-layout-overrides에서 재정의 */
+
+/* svg-layout-overrides */
+/* 배경(375x812) 기준 비율로 레이아웃을 맞추는 구간 */
+.home-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-screen__content {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 하단 패널: 배경 하단 280px 영역 비율 유지 */
+.bottom-panel {
+  width: 100%;
+  margin: 0;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100% * 280 / 812);
+}
+
+/* 패널 배경 SVG 고정 */
+.bottom-panel__bg {
+  position: absolute;
+  inset: 0;
+  background: url('./assets/bottom-panel.svg') 0 0 / 100% 100% no-repeat;
+}
+
+/* 패널 콘텐츠(카드/하단바) 레이어 */
+.bottom-panel__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* 오늘 날씨 카드 스트립: 패널 내부에서 y=34, h=152 기준 */
+.weather-card-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% * 34 / 280);
+  height: calc(100% * 152 / 280);
+  display: flex;
+  padding-left: calc(100% * 18 / 375);
+  box-sizing: border-box;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+/* 가로 스크롤바 숨김 */
+.weather-card-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* 개별 카드: 108x152 비율 유지 + SVG 배경 */
+.weather-card {
+  flex: 0 0 calc(100% * 108 / 375);
+  height: 100%;
+  background: url('./assets/weather-card.svg') 0 0 / 100% 100% no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  color: #363636;
+  font-family: 'Pretendard', var(--font-sans);
+}
+
+/* 카드 간 간격(4px 기준) */
+.weather-card + .weather-card {
+  margin-left: calc(100% * 4 / 375);
+}
+
+/* 카드 아이콘: SVG 기준 좌표로 오버레이 */
+.weather-card__icon {
+  position: absolute;
+  left: calc(100% * 33.1 / 108);
+  top: calc(100% * 23.1 / 152);
+  width: calc(100% * 40.2 / 108);
+  height: calc(100% * 40.2 / 108);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* 아이콘 이미지 꽉 채움 */
+.weather-card__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 카드 중앙 텍스트 영역 */
+.weather-card__text {
+  position: absolute;
+  left: 50%;
+  top: calc(100% * 86 / 152);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(100% * 4 / 152);
+  width: calc(100% * 88 / 108);
+  text-align: center;
+}
+
+/* 카드 상단 텍스트(14px) */
+.weather-card__primary {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.04em;
+}
+
+/* 카드 강조 텍스트(20px) */
+.weather-card__secondary {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.04em;
+}
+
+/* 카드 하단 바 텍스트(흰색) */
+.weather-card__footer {
+  position: absolute;
+  left: 50%;
+  top: calc(100% * 122 / 152);
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* 하단 네비: 패널 내부 y=34 기준 */
+.bottom-nav-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% * 34 / 280);
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* 하단 네비 SVG 배경(339x60) 비율 유지 */
+.bottom-nav {
+  width: calc(100% * 339 / 375);
+  height: calc(100% * 60 / 375);
+  background: url('./assets/bottom-nav.svg') 0 0 / 100% 100% no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+/* 버튼 영역: 4등분 */
+.bottom-nav__actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 실제 버튼 클릭 영역 */
+.bottom-nav__btn {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+/* 아이콘은 SVG 내부에 있으므로 실제 SVG는 숨김 */
+.bottom-nav__btn svg {
+  opacity: 0;
+  width: calc(100% * 339 / 375);
+  height: calc(100% * 60 / 375);
+}

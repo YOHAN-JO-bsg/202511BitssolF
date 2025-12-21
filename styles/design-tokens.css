@@ -1,0 +1,41 @@
+:root {
+  --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+
+  --color-text-primary: #111111;
+  --color-text-secondary: #4a4a4a;
+  --color-text-inverse: #ffffff;
+
+  --color-bg-page: #f7f7f7;
+  --color-bg-app: #616161;
+  --color-panel: #aeaeae;
+  --color-surface: #ffffff;
+  --color-surface-strong: #d9d9d9;
+  --color-track: #3f3f3f;
+  --color-fill: rgba(0, 0, 0, 0.6);
+  --color-forecast-surface: rgba(255, 255, 255, 0.9);
+  --color-forecast-bottom: #505050;
+  --color-forecast-text: #363636;
+  --color-sun-core: #ffab0b;
+  --color-sun-ring: #ffe200;
+
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+  --text-2xl: 36px;
+}
