@@ -52,7 +52,7 @@ function SoundForm(): React.ReactElement {
     try {
       const res = await api.post("/v1/sounds", formData);
       console.log(res.data);
-      // navigate("/sound");   // 필요하면 활성화
+      navigate("/sound");
     } catch (err) {
       console.error(err);
     }
