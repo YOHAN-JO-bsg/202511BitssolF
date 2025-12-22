@@ -99,6 +99,17 @@ function App() {
     }
   };
 
+  // 재생 중지 (미니플레이어 닫기)
+  const stopSound = () => {
+    setCurrentSound(null);
+    setIsPlaying(false);
+    lastPlayedUrlRef.current = null;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    }
+  };
+
   const contextValue = {
     currentSound,
     isPlaying,
@@ -107,6 +118,7 @@ function App() {
     playSound,
     togglePlayPause,
     seekTo,
+    stopSound,
   };
 
   const showMiniPlayer = location.pathname !== '/soundplayer' && currentSound;
@@ -122,9 +134,9 @@ function App() {
 
       <div className="container">
         {currentOutlet}
+        {showMiniPlayer && <Player />}
       </div>
 
-      {showMiniPlayer && <Player />}
     </PlayerContext.Provider>
   );
 }
