@@ -1,6 +1,6 @@
 // src/pages/SoundForm.tsx
 
-import React, { type FormEvent } from "react";
+import React, { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import BottomNav from "../../components/layout/BottomNav";
@@ -9,9 +9,18 @@ import BottomNav from "../../components/layout/BottomNav";
 interface SoundDto {
   title: string;
   description: string;
+  tagIds: number[];
 }
 
 function SoundForm(): React.ReactElement {
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+
+  //태그 목록 불러오기
+  useEffect(() => {
+    api.get('/v1/tags').then(res => setTags(res.data));
+  }, []);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -34,6 +43,7 @@ function SoundForm(): React.ReactElement {
     const dto: SoundDto = {
       title: titleInput.value,
       description: descriptionInput.value,
+      tagIds: selectedTags,
     };
 
     formData.append(
@@ -80,6 +90,28 @@ function SoundForm(): React.ReactElement {
         <div>
           <label className="form-label" htmlFor="image">썸네일 이미지</label>
           <input type="file" id="image" name="thumbnailFile" accept="image/*" required />
+        </div>
+
+        <div>
+          <label className="form-label">태그 선택</label>
+          <div>
+            {tags.map((tag: { tagId: number; name: string }) => (
+              <label key={tag.tagId} style={{ marginRight: '10px' }}>
+                <input
+                  type="checkbox"
+                  checked={selectedTags.includes(tag.tagId)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedTags([...selectedTags, tag.tagId]);
+                    } else {
+                      setSelectedTags(selectedTags.filter(id => id !== tag.tagId));
+                    }
+                  }}
+                />
+                {tag.name}
+              </label>
+            ))}
+          </div>
         </div>
 
         <button className="btn btn-success btn-sm" type="submit">
