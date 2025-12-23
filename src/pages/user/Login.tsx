@@ -1,0 +1,100 @@
+// src/pages/user/Login.tsx
+
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import BottomNav from "../../components/layout/BottomNav";
+import api from "../../api";
+
+function Login(): React.ReactElement {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 컴포넌트 마운트 시 토큰 확인
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    api.post('/v1/users/login', { name, password })
+      .then((response) => {
+        console.log("로그인 성공:", response.data);
+        localStorage.setItem('token', 'Bearer ' + response.data);
+        setIsLoggedIn(true);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("로그인 실패:", error);
+        alert("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
+      });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+  };
+
+  // 로그인된 상태면 다른 화면 표시
+  if (isLoggedIn) {
+    return (
+      <div className="auth-container">
+        <h1>내 정보</h1>
+        <div className="profile-info">
+          <p>로그인 되어 있습니다.</p>
+          <button onClick={handleLogout} className="btn btn-secondary">
+            로그아웃
+          </button>
+        </div>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  // 로그인 안 된 상태면 로그인 폼 표시
+  return (
+    <div className="auth-container">
+      <h1>로그인</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="name">아이디</label>
+          <input
+            type="text"
+            id="name"
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="아이디를 입력하세요"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호를 입력하세요"
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          로그인
+        </button>
+      </form>
+      <div className="auth-link">
+        <p>계정이 없으신가요?</p>
+        <NavLink to="/signup">회원가입</NavLink>
+      </div>
+      <BottomNav />
+    </div>
+  );
+}
+
+export default Login;

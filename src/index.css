@@ -1,0 +1,294 @@
+/* 전체 앱에 공통 적용: 폰트/텍스트 색상 기본값 */
+:root {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  color: #111;
+}
+
+/* 브라우저 기본 여백 제거, 앱을 중앙에 배치 */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+/* 앱 쉘: 중앙 정렬만 담당 */
+.app-shell {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 모바일 폭/높이 기준 컨테이너 (Rectangle 214 배경을 SVG로 표현) */
+.container {
+  position: relative;
+  width: min(375px, 100%);
+  min-height: 100vh;
+  height: 100vh;
+  background: #616161 url('./assets/background.svg') center top / cover no-repeat;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 홈 전체 박스 */
+.home-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 메인 콘텐츠 영역: 세로 스택 */
+.home-screen__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 하단 회색 패널 (Rectangle 171) */
+.bottom-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 280px;
+}
+
+.bottom-panel__bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: #aeaeae;
+  border-radius: 20px 20px 0 0;
+  z-index: 0;
+}
+
+.bottom-panel__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 96px;
+  box-sizing: border-box;
+}
+
+.home-screen__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 현재 날씨 카드 */
+.weather-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 카드 상단: 아이콘+텍스트 정렬 */
+.weather-card__top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.weather-card__icon-wrap img {
+  width: 64px;
+  height: 64px;
+}
+
+/* 기온/상태/위치 텍스트 묶음 */
+.weather-card__main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.weather-card__temperature {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.weather-card__condition {
+  font-size: 15px;
+  color: #555;
+}
+
+.weather-card__location {
+  font-size: 13px;
+  color: #777;
+}
+
+/* 체감/습도/풍속 메타 정보 행 */
+.weather-card__meta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #555;
+  flex-wrap: wrap;
+}
+
+/* 일별 예보 가로 스크롤 */
+.forecast-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(80px, 1fr);
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.forecast-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.forecast-strip::-webkit-scrollbar-thumb {
+  background: #d0d5e0;
+  border-radius: 999px;
+}
+
+/* 개별 예보 카드 */
+.forecast-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  min-width: 80px;
+}
+
+.forecast-item__day {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.forecast-item__icon img {
+  width: 40px;
+  height: 40px;
+}
+
+.forecast-item__temp {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.forecast-item__high {
+  font-weight: 700;
+  color: #e24c4c;
+}
+
+.forecast-item__low {
+  color: #4a7bd1;
+}
+
+/* 메뉴 섹션 스택 */
+.home-screen__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 메뉴 그리드 3열 */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* 메뉴 아이템 카드 */
+.menu-item {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e6e8ef;
+  border-radius: 12px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.menu-item__icon img {
+  width: 36px;
+  height: 36px;
+}
+
+.menu-item__label {
+  font-size: 13px;
+  color: #222;
+}
+
+/* 헤더 컨테이너 (하단 네비) */
+.bottom-nav-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* 하단 네비게이션 바 */
+.bottom-nav {
+  width: 339px;
+  max-width: calc(100% - 36px);
+  height: 60px;
+  background: #363636;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 네비 버튼 묶음: 아이콘 사이 여백 */
+.bottom-nav__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 48px;
+  height: 28px;
+}
+
+/* 개별 네비 버튼 */
+.bottom-nav__btn {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav__btn:active {
+  opacity: 0.8;
+}
+
+.bottom-nav__btn svg {
+  width: 100%;
+  height: 100%;
+}
