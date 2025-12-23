@@ -26,12 +26,9 @@ export const getBoardList = async (
 }
 
 // 게시글 상세 조회
-export const getBoardDetail = async (id: number, userId?: number): Promise<Board> => {
+export const getBoardDetail = async (id: number): Promise<Board> => {
     try {
-        const url = userId
-            ? `${API_BASE_URL}/board/${id}?userId=${userId}`
-            : `${API_BASE_URL}/board/${id}`
-        const response = await fetch(url, {
+        const response = await fetch(`${API_BASE_URL}/board/${id}`, {
             method: 'GET',
             headers: getHeaders(),
         })

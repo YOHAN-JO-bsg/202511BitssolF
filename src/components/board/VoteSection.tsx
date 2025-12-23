@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { castVote } from '../../api/voteApi'
-import { TEMP_USER_ID } from '../../api/config'
 import type { Vote } from '../../types/board'
 
 interface VoteSectionProps {
@@ -22,7 +21,7 @@ function VoteSection({ voteOptions, isVotedByUser, onVoteSuccess }: VoteSectionP
 
         setIsLoading(true)
         try {
-            await castVote(TEMP_USER_ID, voteId)
+            await castVote(voteId)
             setHasVoted(true)
             onVoteSuccess?.()
             alert('투표가 완료되었습니다!')

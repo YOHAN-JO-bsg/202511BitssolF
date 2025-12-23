@@ -7,23 +7,40 @@
     - index 는 약속된 파일명이다.
 */
 
-import { createHashRouter } from "react-router-dom";
+import { createHashRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
-import BoardList from "../pages/BoardList";
-import BoardDetail from "../pages/BoardDetail";
-import BoardForm from "../pages/BoardForm";
+import BoardList from "../pages/Board/BoardList";
+import BoardDetail from "../pages/Board/BoardDetail";
+import BoardForm from "../pages/Board/BoardForm";
+import SoundMain from "../pages/sound/SoundMain";
+import SoundForm from "../pages/sound/SoundForm";
+import SoundPlayer from "../pages/sound/SoundPlayer";
+import Login from "../pages/user/Login";
+import Signup from "../pages/user/Signup";
+
+// 인증 보호용 컴포넌트
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return <Navigate to="/login" replace />;
+    }
+    return <>{children}</>;
+};
 
 // 페이지 routing 정보를 배열에 미리 저장해둔다.
 const routes = [
-    // spring boot 서버에 넣어서 실행하면 최초 로딩될때  /index.html 경로로 로딩된다.
-    // 그럴때도  Home 컴포넌트가 활성화 될수 있도록 라우트 정보를 추가한다. 
-    { path: "/index.html", element: <Home /> },
-    { path: "/", element: <Home /> },
-    { path: "/board", element: <BoardList /> },
-    { path: "/board/:id", element: <BoardDetail /> },
-    { path: "/board/new", element: <BoardForm /> },
-    { path: "/board/:id/edit", element: <BoardForm /> },
+    { path: "/index.html", element: <ProtectedRoute><Home /></ProtectedRoute> },
+    { path: "/", element: <ProtectedRoute><Home /></ProtectedRoute> },
+    { path: "/board", element: <ProtectedRoute><BoardList /></ProtectedRoute> },
+    { path: "/board/:id", element: <ProtectedRoute><BoardDetail /></ProtectedRoute> },
+    { path: "/board/new", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
+    { path: "/board/:id/edit", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
+    { path: "/sound", element: <ProtectedRoute><SoundMain /></ProtectedRoute> },
+    { path: "/sound/new", element: <ProtectedRoute><SoundForm /></ProtectedRoute> },
+    { path: "/soundplayer", element: <ProtectedRoute><SoundPlayer /></ProtectedRoute> },
+    { path: "/login", element: <Login /> },
+    { path: "/signup", element: <Signup /> },
 ];
 
 //export 해줄 router 객체를 만든다

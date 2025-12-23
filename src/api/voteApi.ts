@@ -4,10 +4,9 @@ import { API_BASE_URL, getHeaders, handleApiError } from './config'
 import type { VoteResultsDto } from '../types/board'
 
 // 투표 실행
-export const castVote = async (userId: number, voteId: number): Promise<number> => {
+export const castVote = async (voteId: number): Promise<number> => {
     try {
-        const voteResultsDto: VoteResultsDto = {
-            userId,
+        const voteResultsDto: Partial<VoteResultsDto> = {
             voteId,
         }
         const response = await fetch(`${API_BASE_URL}/votes/cast`, {

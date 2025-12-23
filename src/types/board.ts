@@ -57,7 +57,7 @@ export interface Vote {
 
 export interface LikesDto {
   userId: number
-  targetType: 'board' | 'comment'
+  targetType: 'BOARD' | 'COMMENT'
   targetId: number
 }
 

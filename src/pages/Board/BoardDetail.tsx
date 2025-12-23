@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getBoardDetail, deleteBoard } from '../api/boardApi'
-import LikeButton from '../components/board/LikeButton'
-import VoteSection from '../components/board/VoteSection'
-import CommentList from '../components/board/CommentList'
-import BottomNav from '../components/layout/BottomNav'
-import type { Board } from '../types/board'
+import { getBoardDetail, deleteBoard } from '../../api/boardApi'
+import LikeButton from '../../components/board/LikeButton'
+import VoteSection from '../../components/board/VoteSection'
+import CommentList from '../../components/board/CommentList'
+import BottomNav from '../../components/layout/BottomNav'
+import type { Board } from '../../types/board'
+import './Board.css'
+
 
 function BoardDetail() {
     const { id } = useParams<{ id: string }>()

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { updateComment, deleteComment } from '../../api/commentApi'
-import { TEMP_USER_ID } from '../../api/config'
 import LikeButton from './LikeButton'
 import CommentForm from './CommentForm'
 import type { Comment } from '../../types/board'
@@ -17,12 +16,12 @@ function CommentItem({ comment, onReply, onUpdate }: CommentItemProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [showReplyForm, setShowReplyForm] = useState(false)
 
-    const isMyComment = comment.userId === TEMP_USER_ID
+    const isMyComment = false // TODO: 내 정보 조회 API 연동 후 수정 필요
     const isDeleted = comment.isHidden === 1
 
     const handleEdit = async (content: string) => {
         try {
-            await updateComment(comment.commentId, content, TEMP_USER_ID)
+            await updateComment(comment.commentId, content)
             setIsEditing(false)
             onUpdate()
             alert('댓글이 수정되었습니다.')
@@ -36,7 +35,7 @@ function CommentItem({ comment, onReply, onUpdate }: CommentItemProps) {
         if (!confirm('댓글을 삭제하시겠습니까?')) return
 
         try {
-            await deleteComment(comment.commentId, TEMP_USER_ID)
+            await deleteComment(comment.commentId)
             onUpdate()
             alert('댓글이 삭제되었습니다.')
         } catch (error) {

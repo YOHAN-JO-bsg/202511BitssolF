@@ -2,13 +2,19 @@
 
 export const API_BASE_URL = 'http://localhost:9000/v1'
 
-// 임시 사용자 ID (인증 기능 없을 때 사용)
-export const TEMP_USER_ID = 1
-
 // API 공통 헤더
-export const getHeaders = () => ({
-    'Content-Type': 'application/json',
-})
+export const getHeaders = () => {
+    const token = localStorage.getItem('token') // 저장된 토큰 읽기
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+    }
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}` // 토큰이 있으면 헤더에 추가
+    }
+
+    return headers
+}
 
 // API 에러 처리
 export const handleApiError = (error: any) => {

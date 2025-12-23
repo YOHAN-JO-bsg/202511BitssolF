@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getBoardDetail, createBoard, updateBoard } from '../api/boardApi'
-import { TEMP_USER_ID } from '../api/config'
-import BottomNav from '../components/layout/BottomNav'
-import type { BoardFormData } from '../types/board'
+import { getBoardDetail, createBoard, updateBoard } from '../../api/boardApi'
+import BottomNav from '../../components/layout/BottomNav'
+import type { BoardFormData } from '../../types/board'
+import './Board.css'
+
 
 const CATEGORIES = [
     { value: 'free', label: '자유' },
@@ -39,7 +40,7 @@ function BoardForm() {
         if (!id) return
         setIsLoading(true)
         try {
-            const data = await getBoardDetail(Number(id), TEMP_USER_ID)
+            const data = await getBoardDetail(Number(id))
             setFormData({
                 title: data.title,
                 content: data.content,

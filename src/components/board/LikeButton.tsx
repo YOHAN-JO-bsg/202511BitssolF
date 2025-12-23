@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { toggleLike } from '../../api/likeApi'
-import { TEMP_USER_ID } from '../../api/config'
 
 interface LikeButtonProps {
     targetType: 'board' | 'comment'
@@ -28,8 +27,16 @@ function LikeButton({
 
         setIsLoading(true)
         try {
-            const newIsLiked = await toggleLike(TEMP_USER_ID, targetType, targetId)
-            const newCount = newIsLiked ? likeCount + 1 : likeCount - 1
+            // ⭐ 핵심 수정: 백엔드가 기대하는 값으로 변환
+            const backendTargetType =
+                targetType === 'board' ? 'BOARD' : 'COMMENT'
+
+            const newIsLiked = await toggleLike(backendTargetType, targetId)
+
+            const newCount = newIsLiked
+                ? likeCount + 1
+                : Math.max(likeCount - 1, 0)
+
             setIsLiked(newIsLiked)
             setLikeCount(newCount)
             onLikeChange?.(newIsLiked, newCount)

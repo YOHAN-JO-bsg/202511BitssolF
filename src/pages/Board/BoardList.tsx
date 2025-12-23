@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getBoardList } from '../api/boardApi'
-import Pagination from '../components/board/Pagination'
-import BottomNav from '../components/layout/BottomNav'
-import type { BoardListResponse } from '../types/board'
+import { getBoardList } from '../../api/boardApi'
+import Pagination from '../../components/board/Pagination'
+import BottomNav from '../../components/layout/BottomNav'
+import type { BoardListResponse } from '../../types/board'
+import './Board.css'
+
 
 const CATEGORIES = [
     { value: 'all', label: '전체' },

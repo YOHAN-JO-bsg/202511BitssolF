@@ -5,13 +5,11 @@ import type { LikesDto } from '../types/board'
 
 // 좋아요 토글
 export const toggleLike = async (
-    userId: number,
-    targetType: 'board' | 'comment',
+    targetType: 'BOARD' | 'COMMENT',
     targetId: number
 ): Promise<boolean> => {
     try {
-        const likesDto: LikesDto = {
-            userId,
+        const likesDto: Partial<LikesDto> = {
             targetType,
             targetId,
         }

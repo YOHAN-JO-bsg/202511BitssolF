@@ -35,7 +35,7 @@ function CommentList({ boardId }: CommentListProps) {
 
     const handleCreateComment = async (content: string) => {
         try {
-            await createComment(boardId, content, TEMP_USER_ID, replyToId || undefined)
+            await createComment(boardId, content, replyToId || undefined)
             setReplyToId(null)
             loadComments(currentPage)
             alert('댓글이 등록되었습니다.')

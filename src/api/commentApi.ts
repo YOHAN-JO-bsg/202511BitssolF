@@ -7,13 +7,10 @@ import type { CommentListResponse } from '../types/board'
 export const getComments = async (
     boardId: number,
     pageNum: number = 1,
-    pageSize: number = 10,
-    userId?: number
+    pageSize: number = 10
 ): Promise<CommentListResponse> => {
     try {
-        const url = userId
-            ? `${API_BASE_URL}/board/${boardId}/comments?pageNum=${pageNum}&pageSize=${pageSize}&userId=${userId}`
-            : `${API_BASE_URL}/board/${boardId}/comments?pageNum=${pageNum}&pageSize=${pageSize}`
+        const url = `${API_BASE_URL}/board/${boardId}/comments?pageNum=${pageNum}&pageSize=${pageSize}`
         const response = await fetch(url, {
             method: 'GET',
             headers: getHeaders(),
@@ -30,7 +27,6 @@ export const getComments = async (
 export const createComment = async (
     boardId: number,
     content: string,
-    userId: number,
     parentId?: number
 ): Promise<void> => {
     try {
@@ -39,7 +35,6 @@ export const createComment = async (
             headers: getHeaders(),
             body: JSON.stringify({
                 content,
-                userId,
                 parentId,
             }),
         })
@@ -53,11 +48,10 @@ export const createComment = async (
 // 댓글 수정
 export const updateComment = async (
     commentId: number,
-    content: string,
-    userId: number
+    content: string
 ): Promise<void> => {
     try {
-        const response = await fetch(`${API_BASE_URL}/comments/${commentId}?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/comments/${commentId}`, {
             method: 'PATCH',
             headers: getHeaders(),
             body: JSON.stringify({ content }),
@@ -70,9 +64,9 @@ export const updateComment = async (
 }
 
 // 댓글 삭제
-export const deleteComment = async (commentId: number, userId: number): Promise<void> => {
+export const deleteComment = async (commentId: number): Promise<void> => {
     try {
-        const response = await fetch(`${API_BASE_URL}/comments/${commentId}?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/comments/${commentId}`, {
             method: 'DELETE',
             headers: getHeaders(),
         })
