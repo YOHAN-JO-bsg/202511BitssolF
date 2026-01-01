@@ -53,11 +53,14 @@ function App() {
   // 음악 재생 함수 - soundId로 음악 정보를 가져와서 재생
   const playSound = async (soundId: number) => {
     try {
+      await api.post(`/v1/sounds/${soundId}/play`);
       const response = await api.get<Sound>(`/v1/sounds/${soundId}`);
       setCurrentSound(response.data);
       setIsPlaying(true);
     } catch (error) {
-      console.error("Failed to fetch sound info.", error);
+      console.error("음악 정보 불러오기 실패:", error);
+      // [사용자용] 화면에 팝업을 띄워줌
+      alert("죄송합니다. 음악을 재생할 수 없습니다.\n잠시 후 다시 시도해 주세요.");
       setCurrentSound(null);
     }
   };

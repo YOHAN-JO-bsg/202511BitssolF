@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import styles from './SoundPlayer.module.css';
 import { usePlayer } from '../../hooks/usePlayer';
 
-// Helper function to format time from seconds to MM:SS
+// 초 단위의 시간을 MM:SS 형식으로 변환하는 헬퍼 함수
 const formatTime = (timeInSeconds: number): string => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
@@ -22,12 +22,12 @@ function SoundPlayer() {
     } = usePlayer();
     const navigate = useNavigate();
 
-    // Local state to manage the slider's value during a drag
+    // 드래그 중 슬라이더의 값을 관리하기 위한 로컬 상태
     const [sliderValue, setSliderValue] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
 
-    // Sync the local slider value with the global currentTime,
-    // but only when the user is NOT actively dragging the slider.
+    // 전역 currentTime과 로컬 슬라이더 값을 동기화
+    // 단, 사용자가 슬라이더를 드래그하고 있지 않을 때만 수행
     useEffect(() => {
         if (!isDragging) {
             setSliderValue(currentTime);
@@ -47,7 +47,7 @@ function SoundPlayer() {
         const newValue = Number(e.target.value);
         setSliderValue(newValue);
 
-        // If not dragging, this is likely a click - seek immediately
+        // 드래그 중이 아니라면 클릭한 것으로 간주하여 즉시 탐색(seek)
         if (!isDragging) {
             seekTo(newValue);
         }
@@ -61,13 +61,13 @@ function SoundPlayer() {
         const newValue = Number(e.currentTarget.value);
 
         if (isDragging) {
-            // Was dragging, now release - seek to final value
+            // 드래그 중이었다가 놓은 상태이므로 최종 값으로 탐색(seek)
             seekTo(newValue);
         }
         setIsDragging(false);
     };
 
-    // The time displayed should reflect the drag action instantly
+    // 화면에 표시되는 시간은 드래그 동작을 즉시 반영
     const displayedTime = isDragging ? sliderValue : currentTime;
 
     return (
