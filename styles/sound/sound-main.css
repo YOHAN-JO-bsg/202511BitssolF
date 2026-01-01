@@ -1,0 +1,34 @@
+/* Sound List - 카드 슬라이드 */
+.sound-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 8px 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sound-list::-webkit-scrollbar {
+    display: none;
+    /* 스크롤바 숨기기 (선택) */
+}
+
+.sound-card {
+    flex-shrink: 0;
+    width: 160px;
+    scroll-snap-align: start;
+    cursor: pointer;
+}
+
+.sound-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.sound-card h4 {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #fff;
+}

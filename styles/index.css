@@ -1,4 +1,5 @@
 @import './design-tokens.css';
 @import './app-layout.css';
 @import './components.css';
-@import './mini-player.css';
+@import './sound/mini-player.css';
+@import './sound/sound-main.css';
