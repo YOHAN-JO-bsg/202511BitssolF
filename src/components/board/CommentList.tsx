@@ -5,7 +5,7 @@ import { getComments, createComment } from '../../api/commentApi'
 import CommentItem from './CommentItem'
 import CommentForm from './CommentForm'
 import Pagination from './Pagination'
-import type { Comment, CommentListResponse } from '../../types/board'
+import type { CommentListResponse } from '../../types/board'
 
 interface CommentListProps {
     boardId: number

@@ -38,7 +38,7 @@ function CommentItem({ comment, onReply, onUpdate }: CommentItemProps) {
             await deleteComment(comment.commentId)
             onUpdate()
             alert('댓글이 삭제되었습니다.')
-        } catch (error) {
+        } catch {
             alert('댓글 삭제에 실패했습니다.')
         }
     }

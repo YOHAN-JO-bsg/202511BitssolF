@@ -10,6 +10,15 @@ import BottomNav from '../../components/layout/BottomNav'
 import type { Board } from '../../types/board'
 import './Board.css'
 
+type CategoryType = 'free' | 'daily' | 'recommend' | 'question' | 'vote'
+
+const CATEGORY_LABEL_MAP: Record<CategoryType, string> = {
+    free: '자유게시판',
+    daily: '일상',
+    recommend: '추천',
+    question: '질문',
+    vote: '투표',
+}
 
 function BoardDetail() {
     const { id } = useParams<{ id: string }>()
@@ -43,7 +52,7 @@ function BoardDetail() {
             await deleteBoard(board.boardId)
             alert('게시글이 삭제되었습니다.')
             navigate('/board')
-        } catch (error) {
+        } catch {
             alert('게시글 삭제에 실패했습니다.')
         }
     }
@@ -76,12 +85,16 @@ function BoardDetail() {
                     ← 목록
                 </button>
                 <div className="board-header__actions">
-                    <button
-                        className="board-header__btn"
-                        onClick={() => navigate(`/board/${board.boardId}/edit`)}
-                    >
-                        수정
-                    </button>
+                <button
+                className="board-header__btn"
+                onClick={() =>
+                    board.category === 'vote'
+                    ? navigate(`/board/${board.boardId}/vote/edit`)
+                    : navigate(`/board/${board.boardId}/edit`)
+                }
+                >
+                수정
+                </button>
                     <button className="board-header__btn" onClick={handleDelete}>
                         삭제
                     </button>
@@ -94,12 +107,19 @@ function BoardDetail() {
                     <div className="bottom-panel__content">
                         <div className="board-detail">
                             <div className="board-detail__header">
-                                <span className="board-detail__category">{board.category}</span>
+                                <span className="board-detail__category">
+                                    {CATEGORY_LABEL_MAP[board.category as CategoryType] ?? board.category}
+                                </span>
+
                                 <h1 className="board-detail__title">{board.title}</h1>
                                 <div className="board-detail__meta">
                                     <span className="board-detail__writer">{board.writer}</span>
-                                    <span className="board-detail__date">{formatDate(board.createdAt)}</span>
-                                    <span className="board-detail__views">조회 {board.viewCount}</span>
+                                    <span className="board-detail__date">
+                                        {formatDate(board.createdAt)}
+                                    </span>
+                                    <span className="board-detail__views">
+                                        조회 {board.viewCount}
+                                    </span>
                                 </div>
                             </div>
 

@@ -1,4 +1,4 @@
-// 게시글 작성/수정 페이지
+// 일반 게시글 작성/수정 페이지 (투표 제외)
 
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -7,10 +7,11 @@ import BottomNav from '../../components/layout/BottomNav'
 import type { BoardFormData } from '../../types/board'
 import './Board.css'
 
-
 const CATEGORIES = [
-    { value: 'free', label: '자유' },
+    { value: 'free', label: '자유게시판' },
+    { value: 'vote', label: '투표' },        // 🔥 선택 시 전용 폼으로 이동
     { value: 'daily', label: '일상' },
+    { value: 'recommend', label: '추천' },
     { value: 'question', label: '질문' },
 ]
 
@@ -24,10 +25,8 @@ function BoardForm() {
         content: '',
         category: 'free',
         imageUrl: '',
-        voteOptionTexts: [],
     })
-    const [voteOptions, setVoteOptions] = useState<string[]>(['', ''])
-    const [showVoteSection, setShowVoteSection] = useState(false)
+
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -47,10 +46,6 @@ function BoardForm() {
                 category: data.category,
                 imageUrl: data.imageUrl || '',
             })
-            if (data.voteOptions && data.voteOptions.length > 0) {
-                setShowVoteSection(true)
-                setVoteOptions(data.voteOptions.map((v) => v.optionText))
-            }
         } catch (error) {
             console.error('게시글 조회 실패:', error)
             alert('게시글을 불러오는데 실패했습니다.')
@@ -67,58 +62,37 @@ function BoardForm() {
             alert('제목을 입력해주세요.')
             return
         }
+
         if (!formData.content.trim()) {
             alert('내용을 입력해주세요.')
             return
         }
 
-        const submitData: BoardFormData = {
-            ...formData,
-            voteOptionTexts: showVoteSection
-                ? voteOptions.filter((opt) => opt.trim())
-                : undefined,
-        }
-
         setIsLoading(true)
         try {
             if (isEditMode && id) {
-                await updateBoard(Number(id), submitData)
+                await updateBoard(Number(id), formData)
                 alert('게시글이 수정되었습니다.')
                 navigate(`/board/${id}`)
             } else {
-                const newBoard = await createBoard(submitData)
+                const newBoard = await createBoard(formData)
                 alert('게시글이 작성되었습니다.')
                 navigate(`/board/${newBoard.boardId}`)
             }
-        } catch (error) {
+        } catch {
             alert(isEditMode ? '게시글 수정에 실패했습니다.' : '게시글 작성에 실패했습니다.')
         } finally {
             setIsLoading(false)
         }
     }
 
-    const addVoteOption = () => {
-        setVoteOptions([...voteOptions, ''])
-    }
-
-    const removeVoteOption = (index: number) => {
-        if (voteOptions.length <= 2) {
-            alert('투표 항목은 최소 2개 이상이어야 합니다.')
-            return
-        }
-        setVoteOptions(voteOptions.filter((_, i) => i !== index))
-    }
-
-    const updateVoteOption = (index: number, value: string) => {
-        const newOptions = [...voteOptions]
-        newOptions[index] = value
-        setVoteOptions(newOptions)
-    }
-
     return (
         <div className="home-screen">
             <div className="board-header">
-                <button className="board-header__back-btn" onClick={() => navigate('/board')}>
+                <button
+                    className="board-header__back-btn"
+                    onClick={() => navigate('/board')}
+                >
                     ← 취소
                 </button>
                 <h1 className="board-header__title">
@@ -131,14 +105,27 @@ function BoardForm() {
                     <div className="bottom-panel__bg" />
                     <div className="bottom-panel__content">
                         <form className="board-form" onSubmit={handleSubmit}>
+                            
+                            {/* 카테고리 */}
                             <div className="board-form__group">
                                 <label className="board-form__label">카테고리</label>
                                 <select
                                     className="board-form__select"
                                     value={formData.category}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, category: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        const selected = e.target.value
+
+                                        // 🔥 투표 선택 시 즉시 이동
+                                        if (selected === 'vote') {
+                                            navigate("/board/vote")
+                                            return
+                                        }
+
+                                        setFormData({
+                                            ...formData,
+                                            category: selected,
+                                        })
+                                    }}
                                     disabled={isLoading}
                                 >
                                     {CATEGORIES.map((cat) => (
@@ -149,6 +136,7 @@ function BoardForm() {
                                 </select>
                             </div>
 
+                            {/* 제목 */}
                             <div className="board-form__group">
                                 <label className="board-form__label">제목</label>
                                 <input
@@ -163,6 +151,7 @@ function BoardForm() {
                                 />
                             </div>
 
+                            {/* 내용 */}
                             <div className="board-form__group">
                                 <label className="board-form__label">내용</label>
                                 <textarea
@@ -177,6 +166,7 @@ function BoardForm() {
                                 />
                             </div>
 
+                            {/* 이미지 */}
                             <div className="board-form__group">
                                 <label className="board-form__label">이미지 URL (선택)</label>
                                 <input
@@ -191,55 +181,7 @@ function BoardForm() {
                                 />
                             </div>
 
-                            {!isEditMode && (
-                                <div className="board-form__group">
-                                    <div className="board-form__vote-toggle">
-                                        <label className="board-form__label">투표 추가</label>
-                                        <input
-                                            type="checkbox"
-                                            checked={showVoteSection}
-                                            onChange={(e) => setShowVoteSection(e.target.checked)}
-                                            disabled={isLoading}
-                                        />
-                                    </div>
-
-                                    {showVoteSection && (
-                                        <div className="board-form__vote-options">
-                                            {voteOptions.map((option, index) => (
-                                                <div key={index} className="board-form__vote-option">
-                                                    <input
-                                                        type="text"
-                                                        className="board-form__input"
-                                                        value={option}
-                                                        onChange={(e) => updateVoteOption(index, e.target.value)}
-                                                        placeholder={`투표 항목 ${index + 1}`}
-                                                        disabled={isLoading}
-                                                    />
-                                                    {voteOptions.length > 2 && (
-                                                        <button
-                                                            type="button"
-                                                            className="board-form__remove-btn"
-                                                            onClick={() => removeVoteOption(index)}
-                                                            disabled={isLoading}
-                                                        >
-                                                            삭제
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            ))}
-                                            <button
-                                                type="button"
-                                                className="board-form__add-btn"
-                                                onClick={addVoteOption}
-                                                disabled={isLoading}
-                                            >
-                                                + 투표 항목 추가
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
+                            {/* 버튼 */}
                             <div className="board-form__actions">
                                 <button
                                     type="button"
