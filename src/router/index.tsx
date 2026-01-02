@@ -36,12 +36,12 @@ const routes = [
     { path: "/sound", element: <SoundMain /> },
     { path: "/sound/new", element: <SoundForm /> },
     { path: "/soundplayer", element: <SoundPlayer /> },
-    { path: "/board", element: <ProtectedRoute><BoardList /></ProtectedRoute> },
-    { path: "/board/:id", element: <ProtectedRoute><BoardDetail /></ProtectedRoute> },
-    { path: "/board/new", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
-    { path: "/board/:id/edit", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
-    { path: "/board/vote", element: <ProtectedRoute><BoardVoteForm /></ProtectedRoute> },
-    { path: "/board/:id/vote/edit", element: <ProtectedRoute><BoardVoteForm /></ProtectedRoute> },
+    { path: "/board", element: <BoardList /> },
+    { path: "/board/:id", element: <BoardDetail /> },
+    { path: "/board/new", element: <BoardForm /> },
+    { path: "/board/:id/edit", element: <BoardForm /> },
+    { path: "/board/vote", element: <BoardVoteForm /> },
+    { path: "/board/:id/vote/edit", element: <BoardVoteForm /> },
 ];
 
 
