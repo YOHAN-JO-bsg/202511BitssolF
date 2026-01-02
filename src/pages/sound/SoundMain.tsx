@@ -13,23 +13,48 @@ interface Sound {
   fileUrl: string;
 }
 
+interface Tag {
+  tagId: number;
+  name: string;
+}
+
 function SoundMain(): React.ReactElement {
   const [sounds, setSounds] = useState<Sound[]>([]);
   const [sortBy, setSortBy] = useState("latest");
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+  const [keyword, setKeyword] = useState("");
   const { playSound } = usePlayer();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api.get<Tag[]>("/v1/tags")
+      .then(res => setTags(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
   useEffect(() => {
     api.get<Sound[]>("/v1/sounds", {
       params: {
         sortBy,
+        tagIds: selectedTags.length > 0 ? selectedTags.join(",") : undefined,
+        keyword: keyword || undefined,
       },
     })
       .then(res => {
         setSounds(res.data);
       })
       .catch(err => console.log(err));
-  }, [sortBy]);
+  }, [sortBy, selectedTags, keyword]);
+
+  // 체크박스 토글 핸들러
+  const handleTagChange = (tagId: number) => {
+    setSelectedTags(prev =>
+      prev.includes(tagId)
+        ? prev.filter(id => id !== tagId)  // 이미 있으면 제거
+        : [...prev, tagId]                  // 없으면 추가
+    );
+  };
 
   const handleSoundClick = (soundId: number) => {
     playSound(soundId);
@@ -44,12 +69,34 @@ function SoundMain(): React.ReactElement {
     <>
       <h1>빗소리</h1>
       <div className="input-group">
-        <select name="search" className="form-select">
-          <option value="all">전체</option>
-          <option value="ordinary">일상</option>
-          <option value="monsoon">장마</option>
-        </select>
-        <input type="text" name="keyword" className="form-control" placeholder="검색어 입력..." />
+        {/* 태그 체크박스 */}
+        <div className="tag-filter">
+          <label>
+            <input
+              type="checkbox"
+              checked={selectedTags.length === 0}  // 아무것도 선택 안 되면 체크
+              onChange={() => setSelectedTags([])}  // 클릭하면 전체 초기화
+            />
+            전체
+          </label>
+          {tags.map(tag => (
+            <label key={tag.tagId}>
+              <input
+                type="checkbox"
+                checked={selectedTags.includes(tag.tagId)}
+                onChange={() => handleTagChange(tag.tagId)}
+              />
+              {tag.name}
+            </label>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="form-control"
+          placeholder="검색어 입력..."
+        />
         <button type="submit" className="btn btn-outline-secondary">
           <i className="bi bi-search"></i>
           <span className="visually-hidden">검색</span>
