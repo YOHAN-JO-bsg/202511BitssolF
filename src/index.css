@@ -30,7 +30,8 @@ body {
   min-height: 100vh;
   height: 100vh;
   background: #616161 url('./assets/background.svg') center top / cover no-repeat;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 

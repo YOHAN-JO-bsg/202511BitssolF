@@ -33,7 +33,7 @@ function Login(): React.ReactElement {
     api.post('/v1/users/login', { name, password })
       .then((response) => {
         console.log("로그인 성공:", response.data);
-        localStorage.setItem('token', 'Bearer ' + response.data);
+        localStorage.setItem('token', response.data); // 'Bearer ' 제거하고 순수 토큰만 저장
         setIsLoggedIn(true);
         navigate("/");
       })

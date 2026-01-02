@@ -7,9 +7,13 @@
     - index 는 약속된 파일명이다.
 */
 
-import { createHashRouter } from "react-router-dom";
+import { createHashRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
+import BoardList from "../pages/Board/BoardList";
+import BoardDetail from "../pages/Board/BoardDetail";
+import BoardForm from "../pages/Board/BoardForm";
+import BoardVoteForm from "../pages/Board/BoardVoteForm";
 import SoundMain from "../pages/sound/SoundMain";
 import SoundForm from "../pages/sound/SoundForm";
 import SoundPlayer from "../pages/sound/SoundPlayer";
@@ -32,7 +36,14 @@ const routes = [
     { path: "/sound", element: <SoundMain /> },
     { path: "/sound/new", element: <SoundForm /> },
     { path: "/soundplayer", element: <SoundPlayer /> },
+    { path: "/board", element: <ProtectedRoute><BoardList /></ProtectedRoute> },
+    { path: "/board/:id", element: <ProtectedRoute><BoardDetail /></ProtectedRoute> },
+    { path: "/board/new", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
+    { path: "/board/:id/edit", element: <ProtectedRoute><BoardForm /></ProtectedRoute> },
+    { path: "/board/vote", element: <ProtectedRoute><BoardVoteForm /></ProtectedRoute> },
+    { path: "/board/:id/vote/edit", element: <ProtectedRoute><BoardVoteForm /></ProtectedRoute> },
 ];
+
 
 //export 해줄 router 객체를 만든다
 const router = createHashRouter([{
