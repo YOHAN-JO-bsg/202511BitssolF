@@ -6,7 +6,7 @@ export const usePlayer = (): PlayerContextType => {
     const context = useContext(PlayerContext);
 
     // 만약 Provider로 감싸여있지 않은 곳에서 이 훅을 쓴다면
-    // 개발자에게 알려주는 친절한 에러 메시지를 추가할 수 있어 (강력 추천!)
+    // 개발자에게 알려주는 친절한 에러 메시지를 추가할 수 있음
     if (context === null) {
         throw new Error('usePlayer는 PlayerProvider 안에서만 사용해야 합니다!');
     }

@@ -1,7 +1,7 @@
 import { usePlayer } from '../hooks/usePlayer';
 
 function Player() {
-    const { currentSound, isPlaying, togglePlayPause } = usePlayer();
+    const { currentSound, isPlaying, togglePlayPause, stopSound } = usePlayer();
 
     // 재생 중인 소리가 없으면 아무것도 렌더링하지 않음
     if (!currentSound) {
@@ -17,6 +17,9 @@ function Player() {
             </div>
             <button onClick={togglePlayPause}>
                 {isPlaying ? '⏸️' : '▶️'}
+            </button>
+            <button onClick={stopSound} className="close-btn">
+                ✕
             </button>
         </div>
     );

@@ -1,0 +1,59 @@
+/* ========== 미니 플레이어 (Mini Player) ========== */
+.player-container {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 210px;
+    width: 395px;
+    max-width: calc(100% - 36px);
+    height: 60px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.player-container img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.player-container .sound-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.player-container .sound-info h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-container button {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-container .close-btn {
+    color: #888;
+}
+
+.player-container .close-btn:hover {
+    color: #fff;
+}
