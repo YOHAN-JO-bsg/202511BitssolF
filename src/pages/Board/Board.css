@@ -2,6 +2,24 @@
  * 게시판 스타일 (Board.css)
  * ============================= */
 
+ /* 투표 퍼센트 */
+.vote-option__text {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vote-option__percent {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.vote-option__btn.selected {
+  background-color: #1f3d5a;
+  color: white;
+}
+
+
 /* 게시판 헤더 */
 .board-header {
     position: sticky;
@@ -35,7 +53,7 @@
 }
 
 .bottom-panel__content {
-    padding: 16px 16px 100px !important;
+    padding: 150px 16px 100px !important;
     /* 하단 네비게이션 여백 확보 */
 }
 
@@ -71,12 +89,15 @@
 
 /* 카테고리 필터 */
 .board-categories {
-    display: flex;
-    gap: 8px;
-    padding: 12px 16px;
-    background: #fff;
-    overflow-x: auto;
+  position: relative;
+  z-index: 10;
 }
+
+.bottom-panel,
+.bottom-panel__bg {
+  z-index: 0;
+}
+
 
 .board-category {
     background: #f5f5f5;

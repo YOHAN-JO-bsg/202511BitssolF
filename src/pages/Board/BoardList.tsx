@@ -11,10 +11,22 @@ import './Board.css'
 
 const CATEGORIES = [
     { value: 'all', label: '전체' },
-    { value: 'free', label: '자유' },
+    { value: 'free', label: '자유게시판' },
+    { value: 'vote', label: '투표' },
     { value: 'daily', label: '일상' },
+    { value: 'recommend', label: '추천' },
     { value: 'question', label: '질문' },
 ]
+    type CategoryType = 'free' | 'daily' | 'recommend' | 'question' | 'vote'
+
+    const CATEGORY_LABEL_MAP: Record<CategoryType, string> = {
+    free: '자유게시판',
+    daily: '일상',
+    recommend: '추천',
+    question: '질문',
+    vote: '투표',
+    }
+
 
 function BoardList() {
     const navigate = useNavigate()
@@ -22,7 +34,7 @@ function BoardList() {
     const [currentCategory, setCurrentCategory] = useState('all')
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
-
+    
     const loadBoards = async (category: string, page: number) => {
         setIsLoading(true)
         try {
@@ -61,7 +73,7 @@ function BoardList() {
     return (
         <div className="home-screen">
             <div className="board-header">
-                <h1 className="board-header__title">게시판</h1>
+                <h1 className="board-header__title">커뮤니티</h1>
                 <button
                     className="board-header__write-btn"
                     onClick={() => navigate('/board/new')}
@@ -99,7 +111,10 @@ function BoardList() {
                                             onClick={() => navigate(`/board/${board.boardId}`)}
                                         >
                                             <div className="board-card__header">
-                                                <span className="board-card__category">{board.category}</span>
+                                            <span className="board-card__category">
+                                            {CATEGORY_LABEL_MAP[board.category as CategoryType] ?? board.category}
+                                            </span>
+
                                                 <span className="board-card__date">
                                                     {formatDate(board.createdAt)}
                                                 </span>
