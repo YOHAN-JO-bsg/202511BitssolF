@@ -24,12 +24,20 @@ function SoundMain(): React.ReactElement {
   const [tags, setTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [keyword, setKeyword] = useState("");
+  const [favorites, setFavorites] = useState<Sound[]>([]);
   const { playSound } = usePlayer();
   const navigate = useNavigate();
 
   useEffect(() => {
     api.get<Tag[]>("/v1/tags")
       .then(res => setTags(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  // 즐겨찾기 목록 불러오기
+  useEffect(() => {
+    api.get<Sound[]>("/v1/favorites")
+      .then(res => setFavorites(res.data))
       .catch(err => console.log(err));
   }, []);
 
@@ -120,6 +128,21 @@ function SoundMain(): React.ReactElement {
           </div>
         ))}
       </div>
+      {/* 즐겨찾기 섹션 */}
+      {favorites.length > 0 && (
+        <>
+          <h3>즐겨 찾기</h3>
+          <div className="sound-list">
+            {favorites.map(sound => (
+              <div className="sound-card" key={sound.soundId} onClick={() => handleSoundClick(sound.soundId)}>
+                <img src={sound.thumbnailUrl} alt={sound.title} />
+                <h4>{sound.title}</h4>
+                <span className="favorite-star">★</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
       <BottomNav />
     </>
   );
