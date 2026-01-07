@@ -23,20 +23,18 @@ function BottomNav() {
   const location = useLocation()
 
   return (
-    <nav className="bottom-nav-container" aria-label="하단 메뉴">
-      <nav className="bottom-nav" aria-label="하단 메뉴">
-        <div className="bottom-nav__actions">
-          {navItems.map((item) => (
-            <BottomNavItem
-              key={item.key}
-              label={item.label}
-              path={item.path}
-              Icon={item.Icon}
-              active={location.pathname === item.path}
-            />
-          ))}
-        </div>
-      </nav>
+    <nav className="bg-dark rounded-pill px-3 py-2 shadow-sm" aria-label="하단 메뉴">
+      <div className="d-flex justify-content-between align-items-center gap-3">
+        {navItems.map((item) => (
+          <BottomNavItem
+            key={item.key}
+            label={item.label}
+            path={item.path}
+            Icon={item.Icon}
+            active={location.pathname === item.path}
+          />
+        ))}
+      </div>
     </nav>
   )
 }
@@ -54,7 +52,7 @@ function BottomNavItem({ label, path, active, Icon }: BottomNavItemProps) {
   return (
     <button
       type="button"
-      className="bottom-nav__btn"
+      className="btn p-0 border-0 bg-transparent"
       aria-label={label}
       onClick={() => navigate(path)}
     >

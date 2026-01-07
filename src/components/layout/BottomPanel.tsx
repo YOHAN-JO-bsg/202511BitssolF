@@ -7,9 +7,8 @@ interface BottomPanelProps {
 // 회색 패널(사각형) 배경 위에 콘텐츠를 얹는 용도
 function BottomPanel({ children }: BottomPanelProps) {
     return (
-        <section className="bottom-panel">
-            <div className="bottom-panel__bg" />
-            <div className="bottom-panel__content">{children}</div>
+        <section className="mt-auto bg-light border-top rounded-top-4 p-3 shadow-sm">
+            <div className="d-flex flex-column gap-3">{children}</div>
         </section>
     )
 }
