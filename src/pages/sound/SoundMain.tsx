@@ -25,6 +25,7 @@ function SoundMain(): React.ReactElement {
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [keyword, setKeyword] = useState("");
   const [favorites, setFavorites] = useState<Sound[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
   const { playSound } = usePlayer();
   const navigate = useNavigate();
 
@@ -37,7 +38,10 @@ function SoundMain(): React.ReactElement {
   // 즐겨찾기 목록 불러오기
   useEffect(() => {
     api.get<Sound[]>("/v1/favorites")
-      .then(res => setFavorites(res.data))
+      .then(res => {
+        setFavorites(res.data);
+        setFavoriteIds(new Set(res.data.map(s => s.soundId)));
+      })
       .catch(err => console.log(err));
   }, []);
 
@@ -71,6 +75,37 @@ function SoundMain(): React.ReactElement {
 
   const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value);
+  };
+
+  // 즐겨찾기 토글
+  const handleFavoriteToggle = async (e: React.MouseEvent, soundId: number) => {
+    e.stopPropagation(); // 카드 클릭 이벤트 방지
+    
+    const isFav = favoriteIds.has(soundId);
+    
+    try {
+      if (isFav) {
+        // 즐겨찾기 해제
+        await api.delete(`/v1/sounds/${soundId}/favorite`);
+        setFavoriteIds(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(soundId);
+          return newSet;
+        });
+        setFavorites(prev => prev.filter(s => s.soundId !== soundId));
+      } else {
+        // 즐겨찾기 추가
+        await api.post(`/v1/sounds/${soundId}/favorite`);
+        setFavoriteIds(prev => new Set(prev).add(soundId));
+        // 추가된 sound를 favorites에 추가
+        const sound = sounds.find(s => s.soundId === soundId);
+        if (sound) {
+          setFavorites(prev => [...prev, sound]);
+        }
+      }
+    } catch (err) {
+      console.error("즐겨찾기 토글 실패:", err);
+    }
   };
 
   return (
@@ -125,6 +160,12 @@ function SoundMain(): React.ReactElement {
           <div className="sound-card" key={sound.soundId} onClick={() => handleSoundClick(sound.soundId)}>
             <img src={sound.thumbnailUrl} alt={sound.title} />
             <h4>{sound.title}</h4>
+            <span 
+              className={`favorite-star ${favoriteIds.has(sound.soundId) ? 'active' : ''}`}
+              onClick={(e) => handleFavoriteToggle(e, sound.soundId)}
+            >
+              {favoriteIds.has(sound.soundId) ? '★' : '☆'}
+            </span>
           </div>
         ))}
       </div>
@@ -137,7 +178,12 @@ function SoundMain(): React.ReactElement {
               <div className="sound-card" key={sound.soundId} onClick={() => handleSoundClick(sound.soundId)}>
                 <img src={sound.thumbnailUrl} alt={sound.title} />
                 <h4>{sound.title}</h4>
-                <span className="favorite-star">★</span>
+                <span 
+                  className="favorite-star active"
+                  onClick={(e) => handleFavoriteToggle(e, sound.soundId)}
+                >
+                  ★
+                </span>
               </div>
             ))}
           </div>
