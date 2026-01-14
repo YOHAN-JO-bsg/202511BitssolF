@@ -106,7 +106,6 @@ function BoardDetail() {
 
             <main className="home-screen__content">
                 <div className="bottom-panel">
-                    <div className="bottom-panel__bg" />
                     <div className="bottom-panel__content">
                         <div className="board-detail">
                             <div className="board-detail__header">
@@ -194,7 +193,9 @@ function BoardDetail() {
                             <CommentList boardId={board.boardId} />
                         </div>
                     </div>
-                    <BottomNav />
+                    <div className="bottom-nav-fixed">
+                        <BottomNav />
+                    </div>
                 </div>
             </main>
         </div>
