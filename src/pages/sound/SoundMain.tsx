@@ -15,20 +15,29 @@ interface Sound {
 
 function SoundMain(): React.ReactElement {
   const [sounds, setSounds] = useState<Sound[]>([]);
+  const [sortBy, setSortBy] = useState("latest");
   const { playSound } = usePlayer();
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get<Sound[]>("/v1/sounds")
+    api.get<Sound[]>("/v1/sounds", {
+      params: {
+        sortBy,
+      },
+    })
       .then(res => {
         setSounds(res.data);
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [sortBy]);
 
   const handleSoundClick = (soundId: number) => {
     playSound(soundId);
     navigate('/soundplayer');
+  };
+
+  const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value);
   };
 
   return (
@@ -52,11 +61,14 @@ function SoundMain(): React.ReactElement {
       </div>
       <NavLink to="/sound/new">+</NavLink>
       <h3>목록</h3>
+      <select name="sortBy" className="form-select" onChange={handleSortByChange}>
+        <option value="latest">최신순</option>
+        <option value="popularity">인기순</option>
+      </select>
       <div className="sound-list">
         {sounds.map(sound => (
           <div className="sound-card" key={sound.soundId} onClick={() => handleSoundClick(sound.soundId)}>
             <img src={sound.thumbnailUrl} alt={sound.title} />
-            <p>{sound.thumbnailUrl}</p><br />
             <h4>{sound.title}</h4>
           </div>
         ))}

@@ -10,12 +10,21 @@ function Login(): React.ReactElement {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 컴포넌트 마운트 시 토큰 확인
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setIsLoggedIn(true);
+      // 서버에 토큰 유효한지 확인
+      api.get('/v1/users/me')
+        .then(() => setIsLoggedIn(true))
+        .catch(() => {
+          localStorage.removeItem('token');  // 만료됨, 삭제
+          setIsLoggedIn(false);
+        }).finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
