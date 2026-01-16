@@ -17,7 +17,7 @@ api.interceptors.request.use((config) => {
         config.headers = config.headers || {};
 
         // 2. 이제 config.headers는 객체임이 보장되므로 안전하게 토큰을 추가합니다.
-        config.headers.Authorization = token;
+        config.headers.Authorization = 'Bearer ' + token;
     }
     return config;
 });
@@ -31,6 +31,7 @@ api.interceptors.response.use(
             window.location.href = '/login';  // 또는 navigate 사용
         }
         return Promise.reject(error);
+  
     }
 );
 
